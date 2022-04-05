@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 
-interface PostRepositoryInterface{
+interface UserRepositoryInterface{
 
 	public function getAll();
 
