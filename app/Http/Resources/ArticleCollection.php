@@ -18,7 +18,11 @@ class ArticleCollection extends ResourceCollection
         [
             'data'=> ArticleResource::collection($this->collection),
              'meta' =>[
-                'count' => count($this->collection)
+                'count' => $this->total(),
+                'total_page'=>$this->lastPage(),
+                'total_page'=>$this->lastPage(),
+                'per_page'=>$this->perPage(),
+
             ]
         ];
     }

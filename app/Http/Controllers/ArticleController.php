@@ -16,7 +16,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles =  Article::all();
+        $articles =  Article::paginate(5);
         //     //bejaye inke meta ha inja estefade beshe ArticleCollection sakhte mishe
         // return response()->json([
         //     // 'data'=>$articles,
@@ -84,7 +84,17 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::FindOrFail($id);
+        $this->ValidateArticle($request);
+        $article->update([
+            'title'=> $request->title,
+            'user_id'=> 5,
+            'description'=> $request->description,
+            'image'=> $this->uploadImage($request),
+        ]);
+        return response()->json([
+           'messages'=> 'Updated'
+        ],200);
     }
 
     /**
@@ -95,7 +105,10 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Article::FindOrFail($id)->delete();
+        return response()->json([
+            'messages'=> 'Deleted'
+         ],200);
     }
 
     public function ValidateArticle($request)
