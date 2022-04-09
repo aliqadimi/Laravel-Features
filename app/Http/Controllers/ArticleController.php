@@ -28,6 +28,20 @@ class ArticleController extends Controller
             return response()->json( new ArticleCollection($articles),200);
     }
 
+    public function store(Request $request)
+    {
+        $this->ValidateArticle($request);
+        Article::create([
+            'title'=> $request->title,
+            'user_id'=> 5,
+            'description'=> $request->description,
+            'image'=> $this->uploadImage($request),
+        ]);
+        return response()->json([
+           'messages'=> 'Created'
+        ],201);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -82,5 +96,20 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function ValidateArticle($request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required',
+        ]);
+    }
+
+    public function uploadImage($request)
+    {
+        return $request->hasFile('image')
+        ? $request->image->store('public')
+        : null;
     }
 }
