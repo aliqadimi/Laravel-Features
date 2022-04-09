@@ -19,5 +19,5 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::group(['prefix'=>'v1'], function(){
-Route::resource('articles',[ArticleController::class]);
+    Route::resource('articles',ArticleController::class);
 });

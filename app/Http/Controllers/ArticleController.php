@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -13,28 +14,13 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $articles =  Article::all();
+        return response()->json([
+            'data'=>$articles,
+            'meta' =>[
+                'count' =>$articles->count()
+            ]
+        ],200);
     }
 
     /**
@@ -45,7 +31,17 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+       try {
+        $article = Article::FindOrFail($id);
+        return response()->json([
+            'data'=>$article
+        ],200);
+       } catch (\Throwable $e) {
+        return response()->json([
+            'message'=> 'Not Found',
+            'code'=>404
+        ],404);
+       }
     }
 
     /**
