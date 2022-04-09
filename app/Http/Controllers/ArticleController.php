@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArticleCollection;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
@@ -15,12 +17,15 @@ class ArticleController extends Controller
     public function index()
     {
         $articles =  Article::all();
-        return response()->json([
-            'data'=>$articles,
-            'meta' =>[
-                'count' =>$articles->count()
-            ]
-        ],200);
+        //     //bejaye inke meta ha inja estefade beshe ArticleCollection sakhte mishe
+        // return response()->json([
+        //     // 'data'=>$articles,
+        //     'data'=>ArticleResource::collection($articles),
+        //     // 'meta' =>[
+        //     //     'count' =>$articles->count()
+        //     // ]
+        // ],200);
+            return response()->json( new ArticleCollection($articles),200);
     }
 
     /**
@@ -34,7 +39,8 @@ class ArticleController extends Controller
        try {
         $article = Article::FindOrFail($id);
         return response()->json([
-            'data'=>$article
+            'data'=> new ArticleResource($article)
+            // 'data'=>$article
         ],200);
        } catch (\Throwable $e) {
         return response()->json([
