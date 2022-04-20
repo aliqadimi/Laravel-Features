@@ -19,14 +19,9 @@ use App\Http\Controllers\ArticleController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group(['prefix'=>'v1'], function(){
-    Route::group(['prefix' => 'auth'], function ($router) {
-        Route::post('login', [AuthController::class ,'login']);
-        Route::post('logout',[AuthController::class ,'logout']);
-        Route::post('refresh',[AuthController::class ,'refresh']);
-        Route::post('me',[AuthController::class ,'me'] );
-    
-    });
+Route::middleware('auth:api')->group(['prefix'=>'v1'], function(){
+
+       Route::resource('products',ProductController::class);
        Route::resource('articles',ArticleController::class);
 
 });
