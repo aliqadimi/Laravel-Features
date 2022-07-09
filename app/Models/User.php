@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return [];
     }
+
+    public function article()
+    {
+        return $this->hasMany(Article::class,'author','name');
+    }
 }

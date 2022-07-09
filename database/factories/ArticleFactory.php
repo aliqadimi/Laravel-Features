@@ -14,8 +14,10 @@ class ArticleFactory extends Factory
      */
     public function definition()
     {
+        // $random = rand(1,20);
         return [
-           'user_id'=>2,
+        //    'user_id'=>$random,
+           'author' =>$this->faker->name,
            'title'=>$this->faker->sentence(),
            'description'=>$this->faker->paragraph(),
            'image'=>$this->faker->imageUrl()
